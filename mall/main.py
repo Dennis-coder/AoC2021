@@ -4,17 +4,19 @@ def read_indata():
     return data
 
 def refactor_indata(indata):
-    # Do stuff
     return indata
 
-def calc(indata):
+def calcA(indata):
+    pass
+
+def calcB(indata):
     pass
 
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    outdata = calc(indata)
-    print(outdata)
+    calcA(indata)
+    calcB(indata)
 
 if __name__ == "__main__":
     main()

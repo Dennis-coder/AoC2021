@@ -5,8 +5,7 @@ def read_indata():
 
 def refactor_indata(indata):
     indata = indata.split("\n")
-    for i in range(len(indata)):
-        indata[i] = int(indata[i])
+    indata = [int(x) for x in indata]
     return indata
 
 def calcA(reports):
