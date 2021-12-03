@@ -9,30 +9,30 @@ def refactor_indata(indata):
     return indata
 
 def calcA(indata):
-    hor = 0
+    horizontonal = 0
     depth = 0
     for (command, val) in indata:
         if command == "forward":
-            hor += int(val)
+            horizontonal += int(val)
         elif command == "down":
             depth += int(val)
         elif command == "up":
             depth -= int(val)
-    print(hor*depth)
+    print(horizontonal*depth)
 
 def calcB(indata):
-    hor = 0
+    horizontonal = 0
     depth = 0
     aim = 0
     for (command, val) in indata:
         if command == "forward":
-            hor += int(val)
+            horizontonal += int(val)
             depth += aim * int(val)
         elif command == "down":
             aim += int(val)
         elif command == "up":
             aim -= int(val)
-    print(hor*depth)
+    print(horizontonal*depth)
 
 def main():
     indata = read_indata()
