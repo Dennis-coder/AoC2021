@@ -33,7 +33,7 @@ def calcA(indata):
         count_flashes += len(flash_indexes)
         for (x,y) in flash_indexes:
             indata[y][x] = 0
-    print(count_flashes)
+    return count_flashes
 
 def calcB(indata):
     i = 1
@@ -49,13 +49,14 @@ def calcB(indata):
         if len(flash_indexes) == len(indata) * len(indata[0]):
             break
         i += 1
-    print(i)
+    return i
 
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    calcA(deepcopy(indata))
-    calcB(indata)
+    a = calcA(deepcopy(indata))
+    b = calcB(indata)
+    print(a,b)
 
 if __name__ == "__main__":
     main()

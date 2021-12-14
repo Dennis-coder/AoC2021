@@ -42,8 +42,7 @@ def calcA(indata):
                             break
                 if bingo:
                     unmarked_sum = sum([sum(row) for row in board]) - sum(marked_numbers[i])
-                    print(unmarked_sum * num)
-                    return
+                    return unmarked_sum * num
                 break
 
 
@@ -87,15 +86,15 @@ def calcB(indata):
             marked_numbers = new_marked_numbers
         elif len(boards) == 1 and bingo:
             unmarked_sum = sum([sum(row) for row in boards[0]]) - sum(marked_numbers[0])
-            print(unmarked_sum * num)
-            return
+            return unmarked_sum * num
                     
 
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    calcA(indata)
-    calcB(indata)
+    a = calcA(indata)
+    b = calcB(indata)
+    print(a,b)
 
 if __name__ == "__main__":
     main()

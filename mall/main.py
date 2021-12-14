@@ -15,8 +15,9 @@ def calcB(indata):
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    calcA(indata)
-    calcB(indata)
+    a = calcA(indata)
+    b = calcB(indata)
+    print(a,b)
 
 if __name__ == "__main__":
     main()

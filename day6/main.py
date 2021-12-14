@@ -16,7 +16,7 @@ def calcA(indata):
     for _ in range(80):
         fishes = [fishes[1], fishes[2], fishes[3], fishes[4], fishes[5], fishes[6], fishes[7] + fishes[0], fishes[8], fishes[0]]
     
-    print(sum(fishes))
+    return sum(fishes)
 
 
 def calcB(indata):
@@ -27,13 +27,14 @@ def calcB(indata):
     for _ in range(256):
         fishes = [fishes[1], fishes[2], fishes[3], fishes[4], fishes[5], fishes[6], fishes[7] + fishes[0], fishes[8], fishes[0]]
 
-    print(sum(fishes))
+    return sum(fishes)
 
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    calcA(indata)
-    calcB(indata)
+    a = calcA(indata)
+    b = calcB(indata)
+    print(a,b)
 
 if __name__ == "__main__":
     main()

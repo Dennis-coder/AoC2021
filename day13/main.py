@@ -25,7 +25,7 @@ def calcA(indata):
             if node not in new_nodes:
                 new_nodes.append(node)
         nodes = new_nodes
-    print(len(nodes))
+    return len(nodes)
 
 def calcB(indata):
     nodes = deepcopy(indata[0])
@@ -48,14 +48,14 @@ def calcB(indata):
     matrix = [[" " for x in range(w + 1)] for y in range(h + 1)]
     for (x,y) in nodes:
         matrix[y][x] = "#"
-    for row in matrix:
-        print("".join(row))
+    return ["\n" + "".join(row) for row in matrix]
 
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    calcA(indata)
-    calcB(indata)
+    a = calcA(indata)
+    b = calcB(indata)
+    print(a,b)
 
 if __name__ == "__main__":
     main()

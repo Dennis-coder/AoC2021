@@ -35,7 +35,7 @@ def calcA(indata):
     
     most_common = max(count, key=count.get)
     least_common = min(count, key=count.get)
-    print(count[most_common] - count[least_common])
+    return count[most_common] - count[least_common]
 
 def calcB(indata):
     start_val = indata[0]
@@ -73,13 +73,14 @@ def calcB(indata):
 
     most_common = max(count, key=count.get)
     least_common = min(count, key=count.get)
-    print(count[most_common] - count[least_common])
+    return count[most_common] - count[least_common]
 
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    calcA(indata)
-    calcB(indata)
+    a = calcA(indata)
+    b = calcB(indata)
+    print(a,b)
 
 if __name__ == "__main__":
     main()

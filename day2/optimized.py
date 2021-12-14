@@ -6,13 +6,39 @@ def read_indata():
     return data
 
 def refactor_indata(indata):
+    indata = indata.split("\n")
+    indata = [x.split(" ") for x in indata]
     return indata
 
 def calcA(indata):
-    pass
+    horizontonal = 0
+    depth = 0
+
+    for (command, val) in indata:
+        if command == "forward":
+            horizontonal += int(val)
+        elif command == "down":
+            depth += int(val)
+        elif command == "up":
+            depth -= int(val)
+
+    return horizontonal*depth
 
 def calcB(indata):
-    pass
+    horizontonal = 0
+    depth = 0
+    aim = 0
+
+    for (command, val) in indata:
+        if command == "forward":
+            horizontonal += int(val)
+            depth += aim * int(val)
+        elif command == "down":
+            aim += int(val)
+        elif command == "up":
+            aim -= int(val)
+            
+    return horizontonal*depth
 
 def main():
     total_start = perf_counter()
@@ -21,16 +47,18 @@ def main():
     indata = refactor_indata(indata)
     refactor_end = perf_counter()
     part1_start = perf_counter()
-    calcA(indata)
+    a = calcA(indata)
     part1_end = perf_counter()
     part2_start = perf_counter()
-    calcB(indata)
+    b = calcB(indata)
     part2_end = perf_counter()
     total_end = perf_counter()
     print(f"Refactoring time: {time_to_str(refactor_end - refactor_start)}")
     print(f"Part 1 calc time: {time_to_str(part1_end - part1_start)}")
     print(f"Part 2 calc time: {time_to_str(part2_end - part2_start)}")
     print(f"Total time:       {time_to_str(total_end - total_start)}")
+    print(f"Answer part 1:    {a}")
+    print(f"Answer part 2:    {b}")
 
 def time_to_str(time):
     suffixes = {

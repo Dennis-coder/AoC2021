@@ -25,8 +25,7 @@ def calcA(indata):
         elif costs[mid + 1] < costs[mid]:
             left = mid + 1
         else:
-            print(costs[mid])
-            return
+            return costs[mid]
 
 def calcB(indata):
     crabs = sorted(indata)
@@ -46,18 +45,14 @@ def calcB(indata):
         elif costs[mid + 1] < costs[mid]:
             left = mid + 1
         else:
-            print(costs[mid])
-            return
+            return costs[mid]
 
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    calcA(indata)
-    calcB(indata)
+    a = calcA(indata)
+    b = calcB(indata)
+    print(a,b)
 
 if __name__ == "__main__":
     main()
-
-  #
- ##
-###

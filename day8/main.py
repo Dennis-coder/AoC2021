@@ -56,7 +56,7 @@ def calcA(indata):
                     count += 1
                     break
         
-    print(count)
+    return count
 
 def calcB(indata):
     sum = 0
@@ -108,13 +108,14 @@ def calcB(indata):
                     break
         sum += int(val)
         
-    print(sum)
+    return sum
 
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    calcA(indata)
-    calcB(indata)
+    a = calcA(indata)
+    b = calcB(indata)
+    print(a,b)
 
 if __name__ == "__main__":
     main()

@@ -13,20 +13,21 @@ def calcA(reports):
     for i in range(1, len(reports)):
         if reports[i] > reports[i-1]:
             higher += 1
-    print(higher)
+    return higher
 
 def calcB(reports):
     higher = 0
     for i in range(3, len(reports)):
         if reports[i] + reports[i-1] + reports[i-2] > reports[i-1] + reports[i-2] + reports[i-3]:
             higher += 1
-    print(higher)
+    return higher
 
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    calcA(indata)
-    calcB(indata)
+    a = calcA(indata)
+    b = calcB(indata)
+    print(a,b)
 
 
 if __name__ == "__main__":

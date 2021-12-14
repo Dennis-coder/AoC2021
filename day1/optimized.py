@@ -6,13 +6,25 @@ def read_indata():
     return data
 
 def refactor_indata(indata):
+    indata = [int(x) for x in indata.split("\n")]
     return indata
 
-def calcA(indata):
-    pass
+def calcA(reports):
+    higher = 0
+    for i in range(1, len(reports)):
+        if reports[i] > reports[i-1]:
+            higher += 1
+    return higher
 
-def calcB(indata):
-    pass
+def calcB(reports):
+    higher = 0
+    last_sum = reports[0] + reports[1] + reports[2]
+    for i in range(3, len(reports)):
+        this_sum = reports[i] + reports[i-1] + reports[i-2]
+        if this_sum > last_sum:
+            higher += 1
+        last_sum = this_sum
+    return higher
 
 def main():
     total_start = perf_counter()
@@ -21,16 +33,18 @@ def main():
     indata = refactor_indata(indata)
     refactor_end = perf_counter()
     part1_start = perf_counter()
-    calcA(indata)
+    a = calcA(indata)
     part1_end = perf_counter()
     part2_start = perf_counter()
-    calcB(indata)
+    b = calcB(indata)
     part2_end = perf_counter()
     total_end = perf_counter()
     print(f"Refactoring time: {time_to_str(refactor_end - refactor_start)}")
     print(f"Part 1 calc time: {time_to_str(part1_end - part1_start)}")
     print(f"Part 2 calc time: {time_to_str(part2_end - part2_start)}")
     print(f"Total time:       {time_to_str(total_end - total_start)}")
+    print(f"Answer part 1:    {a}")
+    print(f"Answer part 2:    {b}")
 
 def time_to_str(time):
     suffixes = {

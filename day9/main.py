@@ -1,6 +1,3 @@
-from os import path
-
-
 def read_indata():
     with open("indata.txt") as file:
         data = file.read()
@@ -33,7 +30,7 @@ def calcA(indata):
             if lowest_point:
                 risk_level += indata[y][x] + 1
 
-    print(risk_level)
+    return risk_level
             
 
 def calcB(indata):
@@ -64,7 +61,7 @@ def calcB(indata):
         basins.append(len(pathfinding(low_point, indata, {})))
     
     basins = sorted(basins)
-    print(basins[-1] * basins[-2] * basins[-3])
+    return basins[-1] * basins[-2] * basins[-3]
 
 def pathfinding(point, indata, seen={}):
     neighbours = []
@@ -93,8 +90,9 @@ def pathfinding(point, indata, seen={}):
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    calcA(indata)
-    calcB(indata)
+    a = calcA(indata)
+    b = calcB(indata)
+    print(a,b)
 
 if __name__ == "__main__":
     main()

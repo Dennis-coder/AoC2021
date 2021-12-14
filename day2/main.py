@@ -18,7 +18,7 @@ def calcA(indata):
             depth += int(val)
         elif command == "up":
             depth -= int(val)
-    print(horizontonal*depth)
+    return horizontonal*depth
 
 def calcB(indata):
     horizontonal = 0
@@ -32,13 +32,14 @@ def calcB(indata):
             aim += int(val)
         elif command == "up":
             aim -= int(val)
-    print(horizontonal*depth)
+    return horizontonal*depth
 
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    calcA(indata)
-    calcB(indata)
+    a = calcA(indata)
+    b = calcB(indata)
+    print(a,b)
 
 if __name__ == "__main__":
     main()

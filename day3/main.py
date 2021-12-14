@@ -24,7 +24,7 @@ def calcA(indata):
             gamma += 1
         else:
             epsilon += 1
-    print(gamma * epsilon)
+    return gamma * epsilon
 
 def calcB(indata):
     oxygen_list = deepcopy(indata)
@@ -56,14 +56,15 @@ def calcB(indata):
         co2_list = list(filter(lambda x: x[i] == bit, co2_list))
         if len(co2_list) == 1:
             break
-    print(int(oxygen_list[0], 2) * int(co2_list[0], 2))
+    return int(oxygen_list[0], 2) * int(co2_list[0], 2)
     
 
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    calcA(indata)
-    calcB(indata)
+    a = calcA(indata)
+    b = calcB(indata)
+    print(a,b)
 
 if __name__ == "__main__":
     main()
