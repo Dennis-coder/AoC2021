@@ -1,4 +1,5 @@
 from time import perf_counter
+from copy import deepcopy
 
 def read_indata():
     with open("indata.txt") as file:

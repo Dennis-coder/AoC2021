@@ -11,63 +11,66 @@ def refactor_indata(indata):
 
 def calcA(indata):
     count_dict = {}
-    for line in indata:
-        if line[0][0] != line[1][0] and line[0][1] != line[1][1]:
-            continue
-        if line[0][0] == line[1][0]:
-            x = line[0][0]
-            it = range(line[0][1], line[1][1] + 1) if line[0][1] < line[1][1] else range(line[1][1], line[0][1] + 1)
-            for y in it:
-                if f"{x},{y}" in count_dict:
-                    count_dict[f"{x},{y}"] += 1
-                else:
-                    count_dict[f"{x},{y}"] = 1
-        elif line[0][1] == line[1][1]:
-            y = line[0][1]
-            it = range(line[0][0], line[1][0] + 1) if line[0][0] < line[1][0] else range(line[1][0], line[0][0] + 1)
-            for x in it:
-                if f"{x},{y}" in count_dict:
-                    count_dict[f"{x},{y}"] += 1
-                else:
-                    count_dict[f"{x},{y}"] = 1
     count = 0
-    for key in count_dict.keys():
-        if count_dict[key] > 1:
-            count += 1
+    for ((start_x, start_y), (stop_x, stop_y)) in indata:
+        if start_x == stop_x:
+            x = start_x
+            it = range(start_y, stop_y + 1) if start_y < stop_y else range(stop_y, start_y + 1)
+            for y in it:
+                if (x,y) in count_dict:
+                    if count_dict[(x,y)] == 1:
+                        count += 1
+                    count_dict[(x,y)] += 1
+                else:
+                    count_dict[(x,y)] = 1
+        elif start_y == stop_y:
+            y = start_y
+            it = range(start_x, stop_x + 1) if start_x < stop_x else range(stop_x, start_x + 1)
+            for x in it:
+                if (x,y) in count_dict:
+                    if count_dict[(x,y)] == 1:
+                        count += 1
+                    count_dict[(x,y)] += 1
+                else:
+                    count_dict[(x,y)] = 1
+
     return count
 
 def calcB(indata):
     count_dict = {}
-    for line in indata:
-        if line[0][0] == line[1][0]:
-            x = line[0][0]
-            it = range(line[0][1], line[1][1] + 1) if line[0][1] < line[1][1] else range(line[1][1], line[0][1] + 1)
-            for y in it:
-                if f"{x},{y}" in count_dict:
-                    count_dict[f"{x},{y}"] += 1
-                else:
-                    count_dict[f"{x},{y}"] = 1
-        elif line[0][1] == line[1][1]:
-            y = line[0][1]
-            it = range(line[0][0], line[1][0] + 1) if line[0][0] < line[1][0] else range(line[1][0], line[0][0] + 1)
-            for x in it:
-                if f"{x},{y}" in count_dict:
-                    count_dict[f"{x},{y}"] += 1
-                else:
-                    count_dict[f"{x},{y}"] = 1
-        else:
-            for i in range(abs(line[0][0] - line[1][0]) + 1):
-                x = line[0][0] + i if line[0][0] < line[1][0] else line[0][0] - i
-                y = line[0][1] + i if line[0][1] < line[1][1] else line[0][1] - i
-                if f"{x},{y}" in count_dict:
-                    count_dict[f"{x},{y}"] += 1
-                else:
-                    count_dict[f"{x},{y}"] = 1
-
     count = 0
-    for key in count_dict.keys():
-        if count_dict[key] > 1:
-            count += 1
+    for ((start_x, start_y), (stop_x, stop_y)) in indata:
+        if start_x == stop_x:
+            x = start_x
+            it = range(start_y, stop_y + 1) if start_y < stop_y else range(stop_y, start_y + 1)
+            for y in it:
+                if (x,y) in count_dict:
+                    if count_dict[(x,y)] == 1:
+                        count += 1
+                    count_dict[(x,y)] += 1
+                else:
+                    count_dict[(x,y)] = 1
+        elif start_y == stop_y:
+            y = start_y
+            it = range(start_x, stop_x + 1) if start_x < stop_x else range(stop_x, start_x + 1)
+            for x in it:
+                if (x,y) in count_dict:
+                    if count_dict[(x,y)] == 1:
+                        count += 1
+                    count_dict[(x,y)] += 1
+                else:
+                    count_dict[(x,y)] = 1
+        else:
+            for i in range(abs(start_x - stop_x) + 1):
+                x = start_x + i if start_x < stop_x else start_x - i
+                y = start_y + i if start_y < stop_y else start_y - i
+                if (x,y) in count_dict:
+                    if count_dict[(x,y)] == 1:
+                        count += 1
+                    count_dict[(x,y)] += 1
+                else:
+                    count_dict[(x,y)] = 1
+
     return count
 
 def main():

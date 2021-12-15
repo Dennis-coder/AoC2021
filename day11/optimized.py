@@ -1,4 +1,5 @@
 from time import perf_counter
+from copy import deepcopy
 
 def read_indata():
     with open("indata.txt") as file:
@@ -58,7 +59,7 @@ def main():
     indata = refactor_indata(indata)
     refactor_end = perf_counter()
     part1_start = perf_counter()
-    a = calcA(indata)
+    a = calcA(deepcopy(indata))
     part1_end = perf_counter()
     part2_start = perf_counter()
     b = calcB(indata)

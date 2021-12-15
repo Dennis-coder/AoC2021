@@ -13,19 +13,13 @@ def calcA(indata):
     risk_level = 0
     for y in range(len(indata)):
         for x in range(len(indata[0])):
-            neighbours = []
-            if x > 0:
-                neighbours.append([-1,0])
-            if x < len(indata[0]) - 1:
-                neighbours.append([1,0])
-            if y > 0:
-                neighbours.append([0,-1])
-            if y < len(indata) - 1:
-                neighbours.append([0,1])
-
+            neighbours = [[0,1],[1,0],[0,-1],[-1,0]]
             lowest_point = True
             for n in neighbours:
-                if indata[y + n[1]][x + n[0]] <= indata[y][x]:
+                x2, y2 = x + n[0], y + n[1]
+                if x2 < 0 or x2 == len(indata[0]) or y2 < 0 or y2 == len(indata):
+                    continue
+                if indata[y2][x2] <= indata[y][x]:
                     lowest_point = False
                     break
 
@@ -40,53 +34,39 @@ def calcB(indata):
     basins = []
     for y in range(len(indata)):
         for x in range(len(indata[0])):
-            neighbours = []
-            if x > 0:
-                neighbours.append([-1,0])
-            if x < len(indata[0]) - 1:
-                neighbours.append([1,0])
-            if y > 0:
-                neighbours.append([0,-1])
-            if y < len(indata) - 1:
-                neighbours.append([0,1])
-
+            neighbours = [[0,1],[1,0],[0,-1],[-1,0]]
             lowest_point = True
             for n in neighbours:
-                if indata[y + n[1]][x + n[0]] <= indata[y][x]:
+                x2, y2 = x + n[0], y + n[1]
+                if x2 < 0 or x2 == len(indata[0]) or y2 < 0 or y2 == len(indata):
+                    continue
+                if indata[y2][x2] <= indata[y][x]:
                     lowest_point = False
                     break
 
             if lowest_point:
-                low_points.append([x,y])
+                low_points.append((x,y))
 
     for low_point in low_points:
-        basins.append(len(pathfinding(low_point, indata, {})))
+        basins.append(pathfinding(low_point, indata, {}))
     
     basins = sorted(basins)
     return basins[-1] * basins[-2] * basins[-3]
 
-def pathfinding(point, indata, seen={}):
-    neighbours = []
-    if point[0] > 0:
-        neighbours.append([-1,0])
-    if point[0] < len(indata[0]) - 1:
-        neighbours.append([1,0])
-    if point[1] > 0:
-        neighbours.append([0,-1])
-    if point[1] < len(indata) - 1:
-        neighbours.append([0,1])
-
+def pathfinding(point, indata, seen={}, count=0):
+    neighbours = [[0,1],[1,0],[0,-1],[-1,0]]
     for n in neighbours:
-        cur_point = [point[0] + n[0],point[1] + n[1]]
-        if f"{cur_point[0]},{cur_point[1]}" in seen:
+        x2, y2 = point[0] + n[0], point[1] + n[1]
+        if x2 < 0 or x2 == len(indata[0]) or y2 < 0 or y2 == len(indata):
             continue
-        elif indata[cur_point[1]][cur_point[0]] == 9:
+        if (x2,y2) in seen:
+            continue
+        elif indata[y2][x2] == 9:
             continue
         else:
-            seen[f"{cur_point[0]},{cur_point[1]}"] = True
-            pathfinding(cur_point, indata, seen)
-    
-    return seen
+            seen[(x2,y2)] = True
+            count = pathfinding((x2,y2), indata, seen, count+1)
+    return count
 
 def main():
     total_start = perf_counter()
