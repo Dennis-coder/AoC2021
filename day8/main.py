@@ -7,7 +7,7 @@ def refactor_indata(indata):
     indata = [[y.split() for y in x.split(" | ")] for x in indata.split("\n")]
     return indata
 
-def calcA(indata):
+def calc_a(indata):
     looking_for = [1,4,7,8]
     count = 0
     for row in indata:
@@ -58,7 +58,7 @@ def calcA(indata):
         
     return count
 
-def calcB(indata):
+def calc_b(indata):
     sum = 0
     for row in indata:
         val = ""
@@ -113,8 +113,8 @@ def calcB(indata):
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    a = calcA(indata)
-    b = calcB(indata)
+    a = calc_a(indata)
+    b = calc_b(indata)
     print(a,b)
 
 if __name__ == "__main__":

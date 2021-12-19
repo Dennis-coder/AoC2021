@@ -39,12 +39,12 @@ def astar(indata, start, goal, h):
                 if pos not in open_set:
                     open_set.add(pos)
 
-def calcA(indata):
+def calc_a(indata):
     def h(pos):
         return (len(indata) + len(indata[0]) - 2) * 5
     return astar(indata, (0,0), (len(indata) - 1, len(indata[0]) - 1), h)
 
-def calcB(indata):
+def calc_b(indata):
     new_map = []
     for x in range(5):
         for row in indata:
@@ -60,8 +60,8 @@ def calcB(indata):
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    a = calcA(indata)
-    b = calcB(indata)
+    a = calc_a(indata)
+    b = calc_b(indata)
     print(a,b)
 
 if __name__ == "__main__":

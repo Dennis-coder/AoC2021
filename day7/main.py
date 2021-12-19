@@ -7,7 +7,7 @@ def refactor_indata(indata):
     indata = [int(x) for x in indata.split(",")]
     return indata
 
-def calcA(indata):
+def calc_a(indata):
     crabs = sorted(indata)
     left = crabs[0]
     right = crabs[-1]
@@ -27,7 +27,7 @@ def calcA(indata):
         else:
             return costs[mid]
 
-def calcB(indata):
+def calc_b(indata):
     crabs = sorted(indata)
     left = crabs[0]
     right = crabs[-1]
@@ -50,8 +50,8 @@ def calcB(indata):
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    a = calcA(indata)
-    b = calcB(indata)
+    a = calc_a(indata)
+    b = calc_b(indata)
     print(a,b)
 
 if __name__ == "__main__":

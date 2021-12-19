@@ -56,7 +56,7 @@ def read_packet_a(indata, read_pos = 0):
                 version_number += num
         return version_number, read_pos
 
-def calcA(indata):
+def calc_a(indata):
     sum_version_number, _ = read_packet_a(indata)
     return sum_version_number
     
@@ -108,15 +108,15 @@ def read_packet_b(indata, read_pos = 0):
         if type_id == 7:
             return int(nums[0] == nums[1]), read_pos
 
-def calcB(indata):
+def calc_b(indata):
     val, _ = read_packet_b(indata)
     return val
 
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    a = calcA(indata)
-    b = calcB(indata)
+    a = calc_a(indata)
+    b = calc_b(indata)
     print(a,b)
 
 if __name__ == "__main__":

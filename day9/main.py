@@ -7,7 +7,7 @@ def refactor_indata(indata):
     indata = [[int(x) for x in y] for y in indata.split("\n")]
     return indata
 
-def calcA(indata):
+def calc_a(indata):
     risk_level = 0
     for y in range(len(indata)):
         for x in range(len(indata[0])):
@@ -31,9 +31,8 @@ def calcA(indata):
                 risk_level += indata[y][x] + 1
 
     return risk_level
-            
 
-def calcB(indata):
+def calc_b(indata):
     low_points = []
     basins = []
     for y in range(len(indata)):
@@ -86,12 +85,11 @@ def pathfinding(point, indata, seen={}):
     
     return seen
 
-
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    a = calcA(indata)
-    b = calcB(indata)
+    a = calc_a(indata)
+    b = calc_b(indata)
     print(a,b)
 
 if __name__ == "__main__":

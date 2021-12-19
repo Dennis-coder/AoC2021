@@ -21,7 +21,7 @@ def flash(point, flash_indexes, indata):
         if indata[y2][x2] > 9 and (x2,y2) not in flash_indexes:
             flash([x2, y2], flash_indexes, indata)
 
-def calcA(indata):
+def calc_a(indata):
     count_flashes = 0
     for _ in range(100):
         flash_indexes = []
@@ -35,7 +35,7 @@ def calcA(indata):
             indata[y][x] = 0
     return count_flashes
 
-def calcB(indata):
+def calc_b(indata):
     i = 1
     while True:
         flash_indexes = []
@@ -54,8 +54,8 @@ def calcB(indata):
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    a = calcA(deepcopy(indata))
-    b = calcB(indata)
+    a = calc_a(deepcopy(indata))
+    b = calc_b(indata)
     print(a,b)
 
 if __name__ == "__main__":

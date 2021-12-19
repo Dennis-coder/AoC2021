@@ -9,14 +9,14 @@ def refactor_indata(indata):
     indata = [int(x) for x in indata.split("\n")]
     return indata
 
-def calcA(reports):
+def calc_a(reports):
     higher = 0
     for i in range(1, len(reports)):
         if reports[i] > reports[i-1]:
             higher += 1
     return higher
 
-def calcB(reports):
+def calc_b(reports):
     higher = 0
     last_sum = reports[0] + reports[1] + reports[2]
     for i in range(3, len(reports)):
@@ -33,10 +33,10 @@ def main():
     indata = refactor_indata(indata)
     refactor_end = perf_counter()
     part1_start = perf_counter()
-    a = calcA(indata)
+    a = calc_a(indata)
     part1_end = perf_counter()
     part2_start = perf_counter()
-    b = calcB(indata)
+    b = calc_b(indata)
     part2_end = perf_counter()
     total_end = perf_counter()
     print(f"Refactoring time: {time_to_str(refactor_end - refactor_start)}")
@@ -57,7 +57,6 @@ def time_to_str(time):
         if time > suffixes[suffix]:
             return f"{(time/suffixes[suffix]):.2f}" + suffix
     return f"{time}"
-
 
 if __name__ == "__main__":
     main()

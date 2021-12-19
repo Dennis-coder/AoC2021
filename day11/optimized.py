@@ -22,7 +22,7 @@ def flash(point, flash_indexes, indata):
         if indata[y2][x2] > 9 and (x2,y2) not in flash_indexes:
             flash([x2, y2], flash_indexes, indata)
 
-def calcA(indata):
+def calc_a(indata):
     count_flashes = 0
     for _ in range(100):
         flash_indexes = []
@@ -36,7 +36,7 @@ def calcA(indata):
             indata[y][x] = 0
     return count_flashes
 
-def calcB(indata):
+def calc_b(indata):
     i = 1
     while True:
         flash_indexes = []
@@ -59,10 +59,10 @@ def main():
     indata = refactor_indata(indata)
     refactor_end = perf_counter()
     part1_start = perf_counter()
-    a = calcA(deepcopy(indata))
+    a = calc_a(deepcopy(indata))
     part1_end = perf_counter()
     part2_start = perf_counter()
-    b = calcB(indata)
+    b = calc_b(indata)
     part2_end = perf_counter()
     total_end = perf_counter()
     print(f"Refactoring time: {time_to_str(refactor_end - refactor_start)}")
@@ -83,7 +83,6 @@ def time_to_str(time):
         if time > suffixes[suffix]:
             return f"{(time/suffixes[suffix]):.2f}" + suffix
     return f"{time}"
-
 
 if __name__ == "__main__":
     main()

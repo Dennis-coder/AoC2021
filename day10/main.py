@@ -7,7 +7,7 @@ def refactor_indata(indata):
     indata = indata.split("\n")
     return indata
 
-def calcA(indata):
+def calc_a(indata):
     opening = {
         "(": ")", 
         "[": "]",
@@ -40,7 +40,7 @@ def calcA(indata):
 
     return score
 
-def calcB(indata):
+def calc_b(indata):
     opening = {
         "(": ")", 
         "[": "]",
@@ -84,8 +84,8 @@ def calcB(indata):
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    a = calcA(indata)
-    b = calcB(indata)
+    a = calc_a(indata)
+    b = calc_b(indata)
     print(a,b)
 
 if __name__ == "__main__":

@@ -8,7 +8,7 @@ def refactor_indata(indata):
     indata = [x.split(" ") for x in indata]
     return indata
 
-def calcA(indata):
+def calc_a(indata):
     horizontonal = 0
     depth = 0
     for (command, val) in indata:
@@ -20,7 +20,7 @@ def calcA(indata):
             depth -= int(val)
     return horizontonal*depth
 
-def calcB(indata):
+def calc_b(indata):
     horizontonal = 0
     depth = 0
     aim = 0
@@ -37,8 +37,8 @@ def calcB(indata):
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    a = calcA(indata)
-    b = calcB(indata)
+    a = calc_a(indata)
+    b = calc_b(indata)
     print(a,b)
 
 if __name__ == "__main__":

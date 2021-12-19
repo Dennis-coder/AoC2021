@@ -8,14 +8,14 @@ def refactor_indata(indata):
     indata = [int(x) for x in indata]
     return indata
 
-def calcA(reports):
+def calc_a(reports):
     higher = 0
     for i in range(1, len(reports)):
         if reports[i] > reports[i-1]:
             higher += 1
     return higher
 
-def calcB(reports):
+def calc_b(reports):
     higher = 0
     for i in range(3, len(reports)):
         if reports[i] + reports[i-1] + reports[i-2] > reports[i-1] + reports[i-2] + reports[i-3]:
@@ -25,8 +25,8 @@ def calcB(reports):
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    a = calcA(indata)
-    b = calcB(indata)
+    a = calc_a(indata)
+    b = calc_b(indata)
     print(a,b)
 
 

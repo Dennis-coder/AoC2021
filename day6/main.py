@@ -8,32 +8,21 @@ def refactor_indata(indata):
     indata = [int(x) for x in indata]
     return indata
 
-def calcA(indata):
+def calc(indata, iterations):
     fishes = [0] * 9
     for fish in indata:
         fishes[fish] += 1
 
-    for _ in range(80):
+    for _ in range(iterations):
         fishes = [fishes[1], fishes[2], fishes[3], fishes[4], fishes[5], fishes[6], fishes[7] + fishes[0], fishes[8], fishes[0]]
     
-    return sum(fishes)
-
-
-def calcB(indata):
-    fishes = [0] * 9
-    for fish in indata:
-        fishes[fish] += 1
-
-    for _ in range(256):
-        fishes = [fishes[1], fishes[2], fishes[3], fishes[4], fishes[5], fishes[6], fishes[7] + fishes[0], fishes[8], fishes[0]]
-
     return sum(fishes)
 
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    a = calcA(indata)
-    b = calcB(indata)
+    a = calc(indata, 80)
+    b = calc(indata, 256)
     print(a,b)
 
 if __name__ == "__main__":

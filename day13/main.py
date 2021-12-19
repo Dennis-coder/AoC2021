@@ -11,7 +11,7 @@ def refactor_indata(indata):
     indata[1] = [y.split("=") for y in indata[1].split("\n")]
     return indata
 
-def calcA(indata):
+def calc_a(indata):
     nodes = deepcopy(indata[0])
     folds = indata[1]
     for (axis, val) in folds[0:1]:
@@ -27,7 +27,7 @@ def calcA(indata):
         nodes = new_nodes
     return len(nodes)
 
-def calcB(indata):
+def calc_b(indata):
     nodes = deepcopy(indata[0])
     folds = indata[1]
     for (axis, val) in folds:
@@ -53,8 +53,8 @@ def calcB(indata):
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    a = calcA(indata)
-    b = calcB(indata)
+    a = calc_a(indata)
+    b = calc_b(indata)
     print(a,b)
 
 if __name__ == "__main__":

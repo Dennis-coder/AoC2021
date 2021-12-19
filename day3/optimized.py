@@ -10,7 +10,7 @@ def refactor_indata(indata):
     indata = indata.split("\n")
     return indata
 
-def calcA(indata):
+def calc_a(indata):
     bits_count = [0 for _ in range(len(indata[0]))]
     for binary in indata:
         for i, bit in enumerate(binary):
@@ -27,7 +27,7 @@ def calcA(indata):
             epsilon += 1
     return gamma * epsilon
 
-def calcB(indata):
+def calc_b(indata):
     oxygen_list = deepcopy(indata)
     for i in range(len(oxygen_list[0])):
         bit_count = 0
@@ -66,10 +66,10 @@ def main():
     indata = refactor_indata(indata)
     refactor_end = perf_counter()
     part1_start = perf_counter()
-    a = calcA(indata)
+    a = calc_a(indata)
     part1_end = perf_counter()
     part2_start = perf_counter()
-    b = calcB(indata)
+    b = calc_b(indata)
     part2_end = perf_counter()
     total_end = perf_counter()
     print(f"Refactoring time: {time_to_str(refactor_end - refactor_start)}")
@@ -90,7 +90,6 @@ def time_to_str(time):
         if time > suffixes[suffix]:
             return f"{(time/suffixes[suffix]):.2f}" + suffix
     return f"{time}"
-
 
 if __name__ == "__main__":
     main()

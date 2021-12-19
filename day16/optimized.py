@@ -58,7 +58,7 @@ def read_packet_a(indata, read_pos = 0):
                 version_number += num
         return version_number, read_pos
 
-def calcA(indata):
+def calc_a(indata):
     sum_version_number, _ = read_packet_a(indata)
     return sum_version_number
     
@@ -110,7 +110,7 @@ def read_packet_b(indata, read_pos = 0):
         if type_id == 7:
             return int(nums[0] == nums[1]), read_pos
 
-def calcB(indata):
+def calc_b(indata):
     val, _ = read_packet_b(indata)
     return val
 
@@ -121,10 +121,10 @@ def main():
     indata = refactor_indata(indata)
     refactor_end = perf_counter()
     part1_start = perf_counter()
-    a = calcA(indata)
+    a = calc_a(indata)
     part1_end = perf_counter()
     part2_start = perf_counter()
-    b = calcB(indata)
+    b = calc_b(indata)
     part2_end = perf_counter()
     total_end = perf_counter()
     print(f"Refactoring time: {time_to_str(refactor_end - refactor_start)}")

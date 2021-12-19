@@ -1,5 +1,3 @@
-from copy import deepcopy
-
 def read_indata():
     with open("indata.txt") as file:
         data = file.read()
@@ -13,7 +11,7 @@ def refactor_indata(indata):
         indata[i] = [[int(x) for x in row.split()] for row in indata[i]]
     return indata
 
-def calcA(indata):
+def calc_a(indata):
     numbers = indata[0]
     boards = indata[1:]
     marked_numbers = [[] for _ in range(len(boards))]
@@ -45,8 +43,7 @@ def calcA(indata):
                     return unmarked_sum * num
                 break
 
-
-def calcB(indata):
+def calc_b(indata):
     numbers = indata[0]
     boards = indata[1:]
     marked_numbers = [[] for _ in range(len(boards))]
@@ -88,12 +85,11 @@ def calcB(indata):
             unmarked_sum = sum([sum(row) for row in boards[0]]) - sum(marked_numbers[0])
             return unmarked_sum * num
                     
-
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    a = calcA(indata)
-    b = calcB(indata)
+    a = calc_a(indata)
+    b = calc_b(indata)
     print(a,b)
 
 if __name__ == "__main__":

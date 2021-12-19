@@ -24,7 +24,7 @@ def pathfinding_a(nodes, cur_node, cur_path, paths, seen):
         cur_path = cur_path[:-1]
         seen = seen[:-1]
         
-def calcA(indata):
+def calc_a(indata):
     nodes = {}
     for edge in indata:
         for node in edge:
@@ -59,7 +59,7 @@ def pathfinding_b(nodes, cur_node, cur_path, paths, seen, small_cave_has_been_vi
         if this_cave:
             small_cave_has_been_visited_twice = False
 
-def calcB(indata):
+def calc_b(indata):
     nodes = {}
     for edge in indata:
         for node in edge:
@@ -77,8 +77,8 @@ def calcB(indata):
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    a = calcA(indata)
-    b = calcB(indata)
+    a = calc_a(indata)
+    b = calc_b(indata)
     print(a,b)
 
 if __name__ == "__main__":

@@ -24,7 +24,7 @@ def pathfinding_a(nodes, cur_node, cur_path, paths, seen):
         cur_path = cur_path[:-1]
         seen = seen[:-1]
         
-def calcA(indata):
+def calc_a(indata):
     nodes = {}
     for edge in indata:
         for node in edge:
@@ -59,7 +59,7 @@ def pathfinding_b(nodes, cur_node, cur_path, paths, seen, small_cave_has_been_vi
         if this_cave:
             small_cave_has_been_visited_twice = False
 
-def calcB(indata):
+def calc_b(indata):
     nodes = {}
     for edge in indata:
         for node in edge:
@@ -81,10 +81,10 @@ def main():
     indata = refactor_indata(indata)
     refactor_end = perf_counter()
     part1_start = perf_counter()
-    a = calcA(indata)
+    a = calc_a(indata)
     part1_end = perf_counter()
     part2_start = perf_counter()
-    b = calcB(indata)
+    b = calc_b(indata)
     part2_end = perf_counter()
     total_end = perf_counter()
     print(f"Refactoring time: {time_to_str(refactor_end - refactor_start)}")
@@ -105,7 +105,6 @@ def time_to_str(time):
         if time > suffixes[suffix]:
             return f"{(time/suffixes[suffix]):.2f}" + suffix
     return f"{time}"
-
 
 if __name__ == "__main__":
     main()

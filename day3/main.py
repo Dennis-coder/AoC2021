@@ -9,7 +9,7 @@ def refactor_indata(indata):
     indata = indata.split("\n")
     return indata
 
-def calcA(indata):
+def calc_a(indata):
     bits_count = [0 for _ in range(len(indata[0]))]
     for binary in indata:
         for i, bit in enumerate(binary):
@@ -26,7 +26,7 @@ def calcA(indata):
             epsilon += 1
     return gamma * epsilon
 
-def calcB(indata):
+def calc_b(indata):
     oxygen_list = deepcopy(indata)
     for i in range(len(oxygen_list[0])):
         bit_count = 0
@@ -58,12 +58,11 @@ def calcB(indata):
             break
     return int(oxygen_list[0], 2) * int(co2_list[0], 2)
     
-
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    a = calcA(indata)
-    b = calcB(indata)
+    a = calc_a(indata)
+    b = calc_b(indata)
     print(a,b)
 
 if __name__ == "__main__":

@@ -19,7 +19,7 @@ def recursion_a(pairs, a, b, count, depth=0, max_depth=10):
     recursion_a(pairs, a, new_val, count, depth+1)
     recursion_a(pairs, new_val, b, count, depth+1)
 
-def calcA(indata):
+def calc_a(indata):
     start_val = indata[0]
     pairs = dict(indata[1])
 
@@ -37,7 +37,7 @@ def calcA(indata):
     least_common = min(count, key=count.get)
     return count[most_common] - count[least_common]
 
-def calcB(indata):
+def calc_b(indata):
     start_val = indata[0]
     new_val = dict(indata[1])
     pairs = dict([[x[0], [x[0][0] + x[1], x[1] + x[0][1]]] for x in indata[1]])
@@ -78,8 +78,8 @@ def calcB(indata):
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    a = calcA(indata)
-    b = calcB(indata)
+    a = calc_a(indata)
+    b = calc_b(indata)
     print(a,b)
 
 if __name__ == "__main__":

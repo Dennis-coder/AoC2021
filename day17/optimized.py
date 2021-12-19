@@ -9,7 +9,7 @@ def refactor_indata(indata):
     indata = [[int(y) for y in x.split("=")[1].split("..")] for x in indata.split(": ")[1].split(", ")]
     return indata
 
-def calcA(indata):
+def calc_a(indata):
     y = abs(indata[1][0]) - 1 if indata[1][1] < 0 else indata[1][1] if indata[1][1] > 0 else None
     return (y*(y+1)//2)
 
@@ -26,8 +26,7 @@ def sim(x_vel, y_vel, target):
     else:
         return False
 
-
-def calcB(indata):
+def calc_b(indata):
     lowest_x = 0
     while (lowest_x*(lowest_x+1)//2) < indata[0][0]:
         lowest_x += 1
@@ -50,10 +49,10 @@ def main():
     indata = refactor_indata(indata)
     refactor_end = perf_counter()
     part1_start = perf_counter()
-    a = calcA(indata)
+    a = calc_a(indata)
     part1_end = perf_counter()
     part2_start = perf_counter()
-    b = calcB(indata)
+    b = calc_b(indata)
     part2_end = perf_counter()
     total_end = perf_counter()
     print(f"Refactoring time: {time_to_str(refactor_end - refactor_start)}")

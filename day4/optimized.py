@@ -13,7 +13,7 @@ def refactor_indata(indata):
         indata[i] = [[int(x) for x in row.split()] for row in indata[i]]
     return indata
 
-def calcA(indata):
+def calc_a(indata):
     numbers = indata[0]
     boards = indata[1:]
     marked_numbers = [[] for _ in range(len(boards))]
@@ -45,7 +45,7 @@ def calcA(indata):
                     return unmarked_sum * num
                 break
 
-def calcB(indata):
+def calc_b(indata):
     numbers = indata[0]
     boards = indata[1:]
     marked_numbers = [[] for _ in range(len(boards))]
@@ -94,10 +94,10 @@ def main():
     indata = refactor_indata(indata)
     refactor_end = perf_counter()
     part1_start = perf_counter()
-    a = calcA(indata)
+    a = calc_a(indata)
     part1_end = perf_counter()
     part2_start = perf_counter()
-    b = calcB(indata)
+    b = calc_b(indata)
     part2_end = perf_counter()
     total_end = perf_counter()
     print(f"Refactoring time: {time_to_str(refactor_end - refactor_start)}")

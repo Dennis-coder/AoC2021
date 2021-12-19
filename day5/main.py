@@ -1,5 +1,3 @@
-import math
-
 def read_indata():
     with open("indata.txt") as file:
         data = file.read()
@@ -9,7 +7,7 @@ def refactor_indata(indata):
     indata = [[[int(z) for z in y.split(",")] for y in x.split(" -> ")] for x in indata.split("\n")]
     return indata
 
-def calcA(indata):
+def calc_a(indata):
     count_dict = {}
     for line in indata:
         if line[0][0] != line[1][0] and line[0][1] != line[1][1]:
@@ -36,7 +34,7 @@ def calcA(indata):
             count += 1
     return count
 
-def calcB(indata):
+def calc_b(indata):
     count_dict = {}
     for line in indata:
         if line[0][0] == line[1][0]:
@@ -73,8 +71,8 @@ def calcB(indata):
 def main():
     indata = read_indata()
     indata = refactor_indata(indata)
-    a = calcA(indata)
-    b = calcB(indata)
+    a = calc_a(indata)
+    b = calc_b(indata)
     print(a,b)
 
 if __name__ == "__main__":
