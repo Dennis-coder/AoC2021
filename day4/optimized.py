@@ -1,123 +1,83 @@
-from time import perf_counter
-
-def read_indata():
-    with open("indata.txt") as file:
-        data = file.read()
-    return data
+def get_sets(board):
+    rows = [set([board[0][0], board[0][1], board[0][2], board[0][3], board[0][4]]),
+            set([board[1][0], board[1][1], board[1][2], board[1][3], board[1][4]]),
+            set([board[2][0], board[2][1], board[2][2], board[2][3], board[2][4]]),
+            set([board[3][0], board[3][1], board[3][2], board[3][3], board[3][4]]),
+            set([board[4][0], board[4][1], board[4][2], board[4][3], board[4][4]])]
+    cols = [set([board[0][0], board[1][0], board[2][0], board[3][0], board[4][0]]),
+            set([board[0][1], board[1][1], board[2][1], board[3][1], board[4][1]]),
+            set([board[0][2], board[1][2], board[2][2], board[3][2], board[4][2]]),
+            set([board[0][3], board[1][3], board[2][3], board[3][3], board[4][3]]),
+            set([board[0][4], board[1][4], board[2][4], board[3][4], board[4][4]])]
+    diags = [set([board[0][0], board[1][1], board[2][2], board[3][3], board[4][4]]), 
+             set([board[0][4], board[1][3], board[2][2], board[3][1], board[4][0]])]
+    return ((*rows,), (*cols,), (*diags,))
 
 def refactor_indata(indata):
-    indata = indata.split("\n\n")
-    indata[0] = [int(x) for x in indata[0].split(",")]
-    for i in range(1,len(indata)):
-        indata[i] = indata[i].split("\n")
-        indata[i] = [[int(x) for x in row.split()] for row in indata[i]]
-    return indata
+    numbers, *boards = indata.split("\n\n")
+    numbers = (*[int(x) for x in numbers.split(",")],)
+    boards = (*[get_sets((*[(*[int(x) for x in row.split()],) for row in y.split("\n")],)) for y in boards],)
+    return (numbers, boards)
 
-def calc_a(indata):
-    numbers = indata[0]
-    boards = indata[1:]
-    marked_numbers = [[] for _ in range(len(boards))]
-    for num in numbers:
-        for i, board in enumerate(boards):
-            for row in board:
-                if num not in row:
-                    continue
-                marked_numbers[i].append(num)
-                for row in board:
+def calc_a(bingo_data):
+    numbers, boards = bingo_data
+    low = 4
+    high = len(numbers) - 1
+    while low != high:
+        mid = (high + low) // 2
+        used_numbers = set(numbers[:mid])
+        new_boards = []
+        for (rows, cols, diags) in boards:
+            bingo = False
+            for row in rows:
+                if row.issubset(used_numbers):
                     bingo = True
-                    for x in row:
-                        if x not in marked_numbers[i]:
-                            bingo = False
-                            break
-                    if bingo:
-                        break
-                if not bingo:
-                    for j in range(len(board[0])):
-                        bingo = True
-                        for k in range(len(board)):
-                            if board[k][j] not in marked_numbers[i]:
-                                bingo = False
-                                break
-                        if bingo:
-                            break
-                if bingo:
-                    unmarked_sum = sum([sum(row) for row in board]) - sum(marked_numbers[i])
-                    return unmarked_sum * num
-                break
-
-def calc_b(indata):
-    numbers = indata[0]
-    boards = indata[1:]
-    marked_numbers = [[] for _ in range(len(boards))]
-    for num in numbers:
-        bingo_indexes = []
-        for i, board in enumerate(boards):
-            for row in board:
-                if num not in row:
-                    continue
-                marked_numbers[i].append(num)
-                for row in board:
+                    break
+            for col in cols:
+                if col.issubset(used_numbers):
                     bingo = True
-                    for x in row:
-                        if x not in marked_numbers[i]:
-                            bingo = False
-                            break
-                    if bingo:
-                        bingo_indexes.append(i)
-                        break
-                for j in range(len(board[0])):
-                    bingo = True
-                    for k in range(len(board)):
-                        if board[k][j] not in marked_numbers[i]:
-                            bingo = False
-                            break
-                    if bingo:
-                        bingo_indexes.append(i)
-                        break
-        if len(boards) > 1 and len(bingo_indexes) > 0:
-            new_boards = []
-            new_marked_numbers = []
-            for i in range(len(boards)):
-                if i not in bingo_indexes:
-                    new_boards.append(boards[i])
-                    new_marked_numbers.append(marked_numbers[i])
+                    break
+            if bingo:
+                new_boards.append((rows, cols, diags))
+        if len(new_boards) > 0:
+            high = mid    
             boards = new_boards
-            marked_numbers = new_marked_numbers
-        elif len(boards) == 1 and bingo:
-            unmarked_sum = sum([sum(row) for row in boards[0]]) - sum(marked_numbers[0])
-            return unmarked_sum * num
+        else:
+            low = mid + 1
+    used_numbers = set(numbers[:mid + 1])
+    unmarked_sum = sum([sum(row.difference(used_numbers)) for row in boards[0][0]])
+    return unmarked_sum * numbers[mid]
 
-def main():
-    total_start = perf_counter()
-    indata = read_indata()
-    refactor_start = perf_counter()
-    indata = refactor_indata(indata)
-    refactor_end = perf_counter()
-    part1_start = perf_counter()
-    a = calc_a(indata)
-    part1_end = perf_counter()
-    part2_start = perf_counter()
-    b = calc_b(indata)
-    part2_end = perf_counter()
-    total_end = perf_counter()
-    print(f"Refactoring time: {time_to_str(refactor_end - refactor_start)}")
-    print(f"Part 1 calc time: {time_to_str(part1_end - part1_start)}")
-    print(f"Part 2 calc time: {time_to_str(part2_end - part2_start)}")
-    print(f"Total time:       {time_to_str(total_end - total_start)}")
-    print(f"Answer part 1:    {a}")
-    print(f"Answer part 2:    {b}")
 
-def time_to_str(time):
-    suffixes = {
-        "s": 1,
-        "ms": 0.001,
-        "µs": 0.000001,
-        "ns": 0.000000001,
-    }
-    for suffix in suffixes:
-        if time > suffixes[suffix]:
-            return f"{(time/suffixes[suffix]):.2f}" + suffix
-    return f"{time}"
-
-if __name__ == "__main__":
-    main()
+def calc_b(bingo_data):
+    numbers, boards = bingo_data
+    low = 4
+    high = len(numbers) - 1
+    while low != high:
+        mid = (high + low) // 2
+        used_numbers = set(numbers[:mid])
+        new_boards = []
+        for (rows, cols, diags) in boards:
+            bingo = False
+            for row in rows:
+                if row.issubset(used_numbers):
+                    bingo = True
+                    break
+            for col in cols:
+                if col.issubset(used_numbers):
+                    bingo = True
+                    break
+            for diag in diags:
+                if diag.issubset(used_numbers):
+                    bingo = True
+                    break
+            if not bingo:
+                new_boards.append((rows, cols, diags))
+        if len(new_boards) > 0:
+            low = mid + 1
+            boards = new_boards
+        else:
+            high = mid    
+    used_numbers = set(numbers[:mid + 1])
+    unmarked_sum = sum([sum(row.difference(used_numbers)) for row in boards[0][0]])
+    return unmarked_sum * numbers[mid]

@@ -1,79 +1,68 @@
-from time import perf_counter
-
-def read_indata():
-    with open("indata.txt") as file:
-        data = file.read()
-    return data
-
 def refactor_indata(indata):
-    indata = [[int(y) for y in x.split("=")[1].split("..")] for x in indata.split(": ")[1].split(", ")]
-    return indata
+    target = [[int(y) for y in x.split("=")[1].split("..")] for x in indata.split(": ")[1].split(", ")]
+    return target
 
-def calc_a(indata):
-    y = abs(indata[1][0]) - 1 if indata[1][1] < 0 else indata[1][1] if indata[1][1] > 0 else None
+def calc_a(target):
+    _, (bottom, top) = target
+    y = abs(bottom) - 1 if top < 0 else top if top > 0 else None
     return (y*(y+1)//2)
 
-def sim(x_vel, y_vel, target):
-    x, y = 0, 0
-    while x < target[0][0] or y > target[1][1]:
-        x += x_vel
-        y += y_vel
-        if x_vel > 0:
-            x_vel -= 1
-        y_vel -= 1
-    if target[0][0] <= x and x <= target[0][1] and target[1][0] <= y and y <= target[1][1]:
-        return True
-    else:
-        return False
-
-def calc_b(indata):
+def calc_b(target):
+    (left, right), (bottom, top) = target
     lowest_x = 0
-    while (lowest_x*(lowest_x+1)//2) < indata[0][0]:
+    while (lowest_x*(lowest_x+1)//2) < left:
         lowest_x += 1
-    highest_x = indata[0][1]
-    lowest_y = indata[1][0]
-    highest_y = abs(indata[1][0]) - 1 if indata[1][1] < 0 else indata[1][1] if indata[1][1] > 0 else None
+    highest_x = right
+    lowest_y = bottom
+    highest_y = abs(bottom) - 1 if top < 0 else top if top > 0 else None
     
-    vel = []
-    for x in range(lowest_x, highest_x + 1):
-        for y in range(lowest_y, highest_y + 1):
-            if sim(x, y, indata):
-                vel.append([x,y])
+    x_coords = {}
+    for x in range(lowest_x, highest_x+1):
+        x_pos = 0
+        x_vel = x
+        from_steps = 0
+        while x_pos < left:
+            from_steps += 1
+            x_pos += x_vel
+            x_vel -= 1
+            if x_vel == 0:
+                break
+        if left <= x_pos <= right:
+            to_steps = from_steps
+            while x_pos <= right:
+                to_steps += 1
+                x_pos += x_vel
+                x_vel -= 1
+                if x_vel <= 0:
+                    to_steps = float('inf')
+                    break
+            if (from_steps, to_steps - 1) not in x_coords:
+                x_coords[(from_steps, to_steps - 1)] = 0
+            x_coords[(from_steps, to_steps - 1)] += 1
 
-    return len(vel)
-
-def main():
-    total_start = perf_counter()
-    indata = read_indata()
-    refactor_start = perf_counter()
-    indata = refactor_indata(indata)
-    refactor_end = perf_counter()
-    part1_start = perf_counter()
-    a = calc_a(indata)
-    part1_end = perf_counter()
-    part2_start = perf_counter()
-    b = calc_b(indata)
-    part2_end = perf_counter()
-    total_end = perf_counter()
-    print(f"Refactoring time: {time_to_str(refactor_end - refactor_start)}")
-    print(f"Part 1 calc time: {time_to_str(part1_end - part1_start)}")
-    print(f"Part 2 calc time: {time_to_str(part2_end - part2_start)}")
-    print(f"Total time:       {time_to_str(total_end - total_start)}")
-    print(f"Answer part 1:    {a}")
-    print(f"Answer part 2:    {b}")
-
-def time_to_str(time):
-    suffixes = {
-        "s": 1,
-        "ms": 0.001,
-        "µs": 0.000001,
-        "ns": 0.000000001,
-    }
-    for suffix in suffixes:
-        if time > suffixes[suffix]:
-            return f"{(time/suffixes[suffix]):.2f}" + suffix
-    return f"{time}"
-
-
-if __name__ == "__main__":
-    main()
+    y_coords = {}
+    for y in range(lowest_y, highest_y+1):
+        y_pos = 0
+        y_vel = y
+        from_steps = 0
+        while top < y_pos:
+            from_steps += 1
+            y_pos += y_vel
+            y_vel -= 1
+        if bottom <= y_pos <= top:
+            to_steps = from_steps
+            while bottom <= y_pos:
+                to_steps += 1
+                y_pos += y_vel
+                y_vel -= 1
+            if (from_steps, to_steps - 1) not in y_coords:
+                y_coords[(from_steps, to_steps - 1)] = 0
+            y_coords[(from_steps, to_steps - 1)] += 1
+        
+    count = 0
+    for (x1, x2), n in x_coords.items():
+        for (y1, y2), m in y_coords.items():
+            if x1 <= y2 and y1 <= x2:
+                count += n*m
+    
+    return count
