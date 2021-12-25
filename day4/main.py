@@ -1,8 +1,3 @@
-def read_indata():
-    with open("indata.txt") as file:
-        data = file.read()
-    return data
-
 def refactor_indata(indata):
     indata = indata.split("\n\n")
     indata[0] = [int(x) for x in indata[0].split(",")]
@@ -84,13 +79,3 @@ def calc_b(indata):
         elif len(boards) == 1 and bingo:
             unmarked_sum = sum([sum(row) for row in boards[0]]) - sum(marked_numbers[0])
             return unmarked_sum * num
-                    
-def main():
-    indata = read_indata()
-    indata = refactor_indata(indata)
-    a = calc_a(indata)
-    b = calc_b(indata)
-    print(a,b)
-
-if __name__ == "__main__":
-    main()

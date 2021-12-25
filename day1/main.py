@@ -1,8 +1,3 @@
-def read_indata():
-    with open("indata.txt") as file:
-        data = file.read()
-    return data
-
 def refactor_indata(indata):
     indata = indata.split("\n")
     indata = [int(x) for x in indata]
@@ -21,14 +16,3 @@ def calc_b(reports):
         if reports[i] + reports[i-1] + reports[i-2] > reports[i-1] + reports[i-2] + reports[i-3]:
             higher += 1
     return higher
-
-def main():
-    indata = read_indata()
-    indata = refactor_indata(indata)
-    a = calc_a(indata)
-    b = calc_b(indata)
-    print(a,b)
-
-
-if __name__ == "__main__":
-    main()

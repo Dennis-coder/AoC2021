@@ -1,11 +1,6 @@
 from collections import defaultdict
 import math
 
-def read_indata():
-    with open("indata.txt") as file:
-        data = file.read()
-    return data
-
 def refactor_indata(indata):
     indata = [[int(x) for x in y] for y in indata.split("\n")]
     return indata
@@ -56,13 +51,3 @@ def calc_b(indata):
     def h(pos):
         return (len(new_map) + len(new_map[0]) - 2) * 5
     return astar(new_map, (0,0), (len(new_map) - 1, len(new_map[0]) - 1), h)
-
-def main():
-    indata = read_indata()
-    indata = refactor_indata(indata)
-    a = calc_a(indata)
-    b = calc_b(indata)
-    print(a,b)
-
-if __name__ == "__main__":
-    main()

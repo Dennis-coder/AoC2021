@@ -1,11 +1,6 @@
 from math import ceil, floor
 from copy import deepcopy
 
-def read_indata():
-    with open("indata.txt") as file:
-        data = file.read()
-    return data
-
 def parse_num(num, i = 0):
     parsed_num = []
     cur_num = ""
@@ -123,13 +118,3 @@ def calc_b(indata):
             if magnitude > highest_magnitude:
                 highest_magnitude = magnitude
     return highest_magnitude
-
-def main():
-    indata = read_indata()
-    indata = refactor_indata(indata)
-    a = calc_a(deepcopy(indata))
-    b = calc_b(indata)
-    print(a,b)
-
-if __name__ == "__main__":
-    main()

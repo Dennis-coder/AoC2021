@@ -1,8 +1,3 @@
-def read_indata():
-    with open("indata.txt") as file:
-        data = file.read()
-    return data
-
 def refactor_indata(indata):
     indata = [[int(x) for x in y] for y in indata.split("\n")]
     return indata
@@ -31,6 +26,29 @@ def calc_a(indata):
                 risk_level += indata[y][x] + 1
 
     return risk_level
+
+def pathfinding(point, indata, seen={}):
+    neighbours = []
+    if point[0] > 0:
+        neighbours.append([-1,0])
+    if point[0] < len(indata[0]) - 1:
+        neighbours.append([1,0])
+    if point[1] > 0:
+        neighbours.append([0,-1])
+    if point[1] < len(indata) - 1:
+        neighbours.append([0,1])
+
+    for n in neighbours:
+        cur_point = [point[0] + n[0],point[1] + n[1]]
+        if f"{cur_point[0]},{cur_point[1]}" in seen:
+            continue
+        elif indata[cur_point[1]][cur_point[0]] == 9:
+            continue
+        else:
+            seen[f"{cur_point[0]},{cur_point[1]}"] = True
+            pathfinding(cur_point, indata, seen)
+    
+    return seen
 
 def calc_b(indata):
     low_points = []
@@ -61,36 +79,3 @@ def calc_b(indata):
     
     basins = sorted(basins)
     return basins[-1] * basins[-2] * basins[-3]
-
-def pathfinding(point, indata, seen={}):
-    neighbours = []
-    if point[0] > 0:
-        neighbours.append([-1,0])
-    if point[0] < len(indata[0]) - 1:
-        neighbours.append([1,0])
-    if point[1] > 0:
-        neighbours.append([0,-1])
-    if point[1] < len(indata) - 1:
-        neighbours.append([0,1])
-
-    for n in neighbours:
-        cur_point = [point[0] + n[0],point[1] + n[1]]
-        if f"{cur_point[0]},{cur_point[1]}" in seen:
-            continue
-        elif indata[cur_point[1]][cur_point[0]] == 9:
-            continue
-        else:
-            seen[f"{cur_point[0]},{cur_point[1]}"] = True
-            pathfinding(cur_point, indata, seen)
-    
-    return seen
-
-def main():
-    indata = read_indata()
-    indata = refactor_indata(indata)
-    a = calc_a(indata)
-    b = calc_b(indata)
-    print(a,b)
-
-if __name__ == "__main__":
-    main()

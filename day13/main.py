@@ -1,10 +1,5 @@
 from copy import deepcopy
 
-def read_indata():
-    with open("indata.txt") as file:
-        data = file.read()
-    return data
-
 def refactor_indata(indata):
     indata = indata.split("\n\n")
     indata[0] = [[int(x) for x in y.split(",")] for y in indata[0].split("\n")]
@@ -49,13 +44,3 @@ def calc_b(indata):
     for (x,y) in nodes:
         matrix[y][x] = "#"
     return ["\n" + "".join(row) for row in matrix]
-
-def main():
-    indata = read_indata()
-    indata = refactor_indata(indata)
-    a = calc_a(indata)
-    b = calc_b(indata)
-    print(a,b)
-
-if __name__ == "__main__":
-    main()

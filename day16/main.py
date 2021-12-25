@@ -1,8 +1,3 @@
-def read_indata():
-    with open("indata.txt") as file:
-        data = file.read()
-    return data
-
 def refactor_indata(indata):
     hex_to_bin = {
         "0": "0000",
@@ -111,13 +106,3 @@ def read_packet_b(indata, read_pos = 0):
 def calc_b(indata):
     val, _ = read_packet_b(indata)
     return val
-
-def main():
-    indata = read_indata()
-    indata = refactor_indata(indata)
-    a = calc_a(indata)
-    b = calc_b(indata)
-    print(a,b)
-
-if __name__ == "__main__":
-    main()

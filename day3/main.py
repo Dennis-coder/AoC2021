@@ -1,10 +1,5 @@
 from copy import deepcopy
 
-def read_indata():
-    with open("indata.txt") as file:
-        data = file.read()
-    return data
-
 def refactor_indata(indata):
     indata = indata.split("\n")
     return indata
@@ -57,13 +52,3 @@ def calc_b(indata):
         if len(co2_list) == 1:
             break
     return int(oxygen_list[0], 2) * int(co2_list[0], 2)
-    
-def main():
-    indata = read_indata()
-    indata = refactor_indata(indata)
-    a = calc_a(indata)
-    b = calc_b(indata)
-    print(a,b)
-
-if __name__ == "__main__":
-    main()

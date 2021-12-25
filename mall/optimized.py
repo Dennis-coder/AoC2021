@@ -8,10 +8,10 @@ def read_indata():
 def refactor_indata(indata):
     return indata
 
-def calcA(indata):
+def calc_a(indata):
     pass
 
-def calcB(indata):
+def calc_b(indata):
     pass
 
 def main():
@@ -21,10 +21,10 @@ def main():
     indata = refactor_indata(indata)
     refactor_end = perf_counter()
     part1_start = perf_counter()
-    a = calcA(indata)
+    a = calc_a(indata)
     part1_end = perf_counter()
     part2_start = perf_counter()
-    b = calcB(indata)
+    b = calc_b(indata)
     part2_end = perf_counter()
     total_end = perf_counter()
     print(f"Refactoring time: {time_to_str(refactor_end - refactor_start)}")

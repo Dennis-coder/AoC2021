@@ -1,8 +1,3 @@
-def read_indata():
-    with open("indata.txt") as file:
-        data = file.read()
-    return data
-
 def refactor_indata(indata):
     indata = indata.split("\n\n")
     indata[1] = [x.split(" -> ") for x in indata[1].split("\n")]
@@ -74,13 +69,3 @@ def calc_b(indata):
     most_common = max(count, key=count.get)
     least_common = min(count, key=count.get)
     return count[most_common] - count[least_common]
-
-def main():
-    indata = read_indata()
-    indata = refactor_indata(indata)
-    a = calc_a(indata)
-    b = calc_b(indata)
-    print(a,b)
-
-if __name__ == "__main__":
-    main()

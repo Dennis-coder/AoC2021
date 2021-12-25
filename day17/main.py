@@ -1,7 +1,3 @@
-def read_indata():
-    with open("indata.txt") as file:
-        data = file.read()
-    return data
 
 def refactor_indata(indata):
     indata = [[int(y) for y in x.split("=")[1].split("..")] for x in indata.split(": ")[1].split(", ")]
@@ -39,13 +35,3 @@ def calc_b(indata):
                 vel.append([x,y])
 
     return len(vel)
-
-def main():
-    indata = read_indata()
-    indata = refactor_indata(indata)
-    a = calc_a(indata)
-    b = calc_b(indata)
-    print(a,b)
-
-if __name__ == "__main__":
-    main()

@@ -1,10 +1,5 @@
 from copy import deepcopy
 
-def read_indata():
-    with open("indata.txt") as file:
-        data = file.read()
-    return data
-
 def refactor_indata(indata):
     indata = [[int(x) for x in y] for y in indata.split("\n")]
     return indata
@@ -50,13 +45,3 @@ def calc_b(indata):
             break
         i += 1
     return i
-
-def main():
-    indata = read_indata()
-    indata = refactor_indata(indata)
-    a = calc_a(deepcopy(indata))
-    b = calc_b(indata)
-    print(a,b)
-
-if __name__ == "__main__":
-    main()

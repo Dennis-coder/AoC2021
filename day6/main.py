@@ -1,8 +1,3 @@
-def read_indata():
-    with open("indata.txt") as file:
-        data = file.read()
-    return data
-
 def refactor_indata(indata):
     indata = indata.split(",")
     indata = [int(x) for x in indata]
@@ -18,12 +13,8 @@ def calc(indata, iterations):
     
     return sum(fishes)
 
-def main():
-    indata = read_indata()
-    indata = refactor_indata(indata)
-    a = calc(indata, 80)
-    b = calc(indata, 256)
-    print(a,b)
+def calc_a(indata):
+    return calc(indata, 80)
 
-if __name__ == "__main__":
-    main()
+def calc_b(indata):
+    return calc(indata, 256)
