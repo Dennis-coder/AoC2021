@@ -20,8 +20,8 @@ def time_to_str(time):
             return f"{(time/suffixes[suffix]):.2f}" + suffix
     return f"{time}"
 
-def import_functions(day):
-    path = f"day{day}.optimized"
+def import_functions(day, type):
+    path = f"day{day}.{type}"
     imp = import_module(path)
     return (getattr(imp, "refactor_indata"), getattr(imp, "calc_a"), getattr(imp, "calc_b"))
 
@@ -32,7 +32,7 @@ def timeit(fun, *args):
     return time_to_str(end - start), res
 
 def time_one_day(day):
-    refactor_indata, calc_a, calc_b = import_functions(day)
+    refactor_indata, calc_a, calc_b = import_functions(day, "optimized")
     print(f"Day {day}:")
 
     total_start = perf_counter()
@@ -47,12 +47,12 @@ def time_one_day(day):
     print(f"Part 2 is {b} in {part2_time}")
     print(f"Total time for day {day} is {time_to_str(total_end - total_start)}")
 
-def time_all_days():
+def time_all_days(type):
     times = []
     nr_of_days = 19
     for day in range(1, nr_of_days + 1):
         print(f"Now calculating day {day}", end="\r")
-        refactor_indata, calc_a, calc_b = import_functions(day)
+        refactor_indata, calc_a, calc_b = import_functions(day, type)
         start = perf_counter()
         indata = read_indata(day)
         refactor_time, indata = timeit(refactor_indata, indata)
@@ -75,10 +75,13 @@ def time_all_days():
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        if sys.argv[1] == "test":
+        arg = sys.argv[1]
+        if arg == "test":
             print(timeit(test)[0])
+        elif arg == "main":
+            time_all_days("main")
         else:
-            day = int(sys.argv[1])
+            day = int(arg)
             time_one_day(day)
     else:
-        time_all_days()
+        time_all_days("optimized")

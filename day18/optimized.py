@@ -1,120 +1,77 @@
 from math import ceil, floor
-from copy import deepcopy
-
-def parse_num(num, i = 0):
-    parsed_num = []
-    cur_num = ""
-    while i < len(num):
-        char = num[i]
-        i += 1
-        if char == "[":
-            a_num, i = parse_num(num, i)
-            parsed_num.append(a_num)
-        elif char == "]":
-            if cur_num.isnumeric():
-                parsed_num.append(int(cur_num))
-            return parsed_num, i
-        elif char == ",":
-            if cur_num.isnumeric():
-                parsed_num.append(int(cur_num))
-            cur_num = ""
-        elif char.isnumeric():
-            cur_num += char
-    return parsed_num
+from ast import literal_eval
+from re import findall, finditer, search
+from sre_constants import RANGE_UNI_IGNORE
 
 def refactor_indata(indata):
-    indata = [parse_num(x)[0] for x in indata.split("\n")]
-    return indata
+    numbers = (*indata.split("\n"),)
+    return numbers
 
-def is_pair(num):
-    if not isinstance(num, list):
-        return False
-    if len(num) != 2:
-        return False
-    if not (isinstance(num[0], int) and isinstance(num[1], int)):
-        return False
-    return True
+def pair(x, y):
+    return f"[{x},{y}]"
 
-def _explode_num(num, data):
-    for i in range(len(num)):
-        if data["has_reduced"]:
-            break
-        
-        elif data["is_reducing"] and isinstance(num[i], int):
-            num[i] += data["num_to_add"]
-            data["is_reducing"] = False
-            data["has_reduced"] = True
-            break
-
-        elif data["is_reducing"] and isinstance(num[i], list):
-            _explode_num(num[i], data)
+def explode(num):
+    for pair in finditer(r'\[\d+,\d+\]', num):
+        p_start = pair.start()
+        p_end = pair.end()
+        before = num[:p_start]
+        if before.count('[') - before.count(']') >= 4:
+            l_num, r_num = [int(x) for x in findall(r"\d+", num[p_start:p_end])]
             
-        elif data["is_reducing"]:
+            r_string = num[p_end:]
+            next_num_r = search(r'\d+', r_string)
+            if next_num_r:
+                r_start = next_num_r.start()
+                r_end = next_num_r.end()
+                r_string = r_string[:r_start] + str(r_num + int(r_string[r_start:r_end])) + r_string[r_end:]
+
+            l_string = num[:p_start]
+            next_num_l = search(r'\d+', l_string[::-1])
+            if next_num_l:
+                l_start = p_start - next_num_l.end()
+                l_end = p_start - next_num_l.start()
+                l_string = l_string[:l_start] + str(l_num + int(l_string[l_start:l_end])) + l_string[l_end:]
+            
+            return l_string + "0" + r_string, True
+    return num, False
+
+def split(num):
+    match = search(r"\d{2,}", num)
+    if not match:
+        return num, False
+    start = match.start()
+    end = match.end()
+    num_to_split = int(num[start:end])
+    return num[:start] + pair(floor(num_to_split/2), ceil(num_to_split/2)) + num[end:], True
+
+def reduce(num):
+    while True:
+        num, has_exploded = explode(num)
+        if has_exploded:
             continue
-
-        elif isinstance(num[i], int):
-            data["prev_num"] = num
-            data["prev_num_i"] = i
-
-        elif is_pair(num[i]) and data["depth"] >= 4:
-            if data["prev_num"]:
-                data["prev_num"][data["prev_num_i"]] += num[i][0]
-            data["num_to_add"] = num[i][1]
-            data["is_reducing"] = True
-            num[i] = 0
-
-        elif isinstance(num[i], list):
-            data["depth"] += 1
-            _explode_num(num[i], data)
-
-    data["depth"] -= 1
-
-def _split_num(num, data):
-    for i in range(len(num)):
-        if data["has_reduced"]:
-            break
-
-        elif isinstance(num[i], int) and num[i] >= 10:
-            num[i] = [floor(num[i] / 2), ceil(num[i] / 2)]
-            data["has_reduced"] = True
-            break
-
-        elif isinstance(num[i], list):
-            _split_num(num[i], data)
+        num, has_split = split(num)
+        if has_split:
+            continue
+        return num
 
 def calc_magnitude(num):
     if isinstance(num, int):
         return num
     return 3 * calc_magnitude(num[0]) + 2 * calc_magnitude(num[1])
 
-def reduce_num(num):
-    while True:
-        data = {
-            "is_reducing": False,
-            "has_reduced": False,
-            "depth": 1,
-            "prev_num": None
-        }
-        _explode_num(num, data)
-        _split_num(num, data)
-        if not (data["has_reduced"] or data["is_reducing"]):
-            break
-    return num
+def calc_a(numbers):
+    num = reduce(numbers[0])
+    for i in range(1, len(numbers)):
+        num = pair(num, numbers[i])
+        num = reduce(num)
+    return calc_magnitude(literal_eval(num))
 
-def calc_a(indata):
-    num = reduce_num(indata[0])
-    for i in range(1, len(indata)):
-        num = reduce_num([num, indata[i]])
-    return calc_magnitude(num)
-
-def calc_b(indata):
+def calc_b(numbers):
     highest_magnitude = 0
-    for i in range(len(indata)):
-        for j in range(len(indata)):
-            if i == j:
-                continue
-            num = reduce_num([deepcopy(indata[i]), deepcopy(indata[j])])
-            magnitude = calc_magnitude(num)
-            if magnitude > highest_magnitude:
-                highest_magnitude = magnitude
+    for i in range(len(numbers) - 1):
+        for j in range(i+1, len(numbers)):
+            highest_magnitude = max((
+                calc_magnitude(literal_eval(reduce(pair(numbers[i], numbers[j])))), 
+                calc_magnitude(literal_eval(reduce(pair(numbers[j], numbers[i])))), 
+                highest_magnitude))
     return highest_magnitude
