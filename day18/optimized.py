@@ -1,7 +1,6 @@
 from math import ceil, floor
 from ast import literal_eval
 from re import findall, finditer, search
-from sre_constants import RANGE_UNI_IGNORE
 
 def refactor_indata(indata):
     numbers = (*indata.split("\n"),)
