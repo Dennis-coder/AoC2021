@@ -16,7 +16,6 @@ def calc_a(starting_pos):
         player[1] += player[0]
         i += 1
     return (players[0][1] if players[0][1] < 1000 else players[1][1]) * i*3
-        
 
 def calc_b(starting_pos):
     universes = {

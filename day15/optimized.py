@@ -18,7 +18,7 @@ def astar(map, start, goal, map_size):
     while len(pq)>0:
         cost, current = heapq.heappop(pq)
         if current == goal:
-            return cost   
+            return cost
         x, y = current
         for dx,dy in neighbors:
             x1,y1 = x+dx, y+dy 
