@@ -31,8 +31,8 @@ def timeit(fun, *args):
     end = perf_counter_ns()
     return time_to_str(end - start), res
 
-def time_one_day(day):
-    refactor_indata, calc_a, calc_b = import_functions(day, "optimized")
+def time_one_day(day, file):
+    refactor_indata, calc_a, calc_b = import_functions(day, file)
     print(f"Day {day}:")
 
     total_start = perf_counter_ns()
@@ -58,7 +58,11 @@ def time_all_days(type):
         indata = read_indata(day)
         refactor_time, indata = timeit(refactor_indata, indata)
         part1_time, a = timeit(calc_a, indata)
+        if not a:
+            part1_time = "N/A"
         part2_time, b = timeit(calc_b, indata)
+        if not b:
+            part2_time = "N/A"
         end = perf_counter_ns()
         times.append((day, refactor_time, part1_time, part2_time, time_to_str(end-start), time_to_str(end - running_total_start)))
     
@@ -79,8 +83,11 @@ if __name__ == "__main__":
             print(timeit(test)[0])
         elif arg == "main":
             time_all_days("main")
+        elif len(sys.argv) > 2:
+            day = int(arg)
+            time_one_day(day, sys.argv[2])
         else:
             day = int(arg)
-            time_one_day(day)
+            time_one_day(day, "optimized")
     else:
         time_all_days("optimized")
