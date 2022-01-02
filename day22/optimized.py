@@ -1,5 +1,4 @@
 def refactor_indata(indata):
-    # on x=-17..30,y=-5..41,z=-33..14
     operations = []
     for line in indata.splitlines():
         op, bounds = line.split()
